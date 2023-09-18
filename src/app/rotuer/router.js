@@ -5,8 +5,11 @@ import Homepage from '../../features/pages/Homepage';
 import Dashboard from '../../features/pages/Dashboard';
 import DashboardLayout from '../layout/DashboardLayout';
 import ClientLayout from '../layout/ClientLayout';
+import { Products } from '../../features/pages/Dashboard/Products';
+import { Categories } from '../../features/pages/Dashboard/Categories';
 
 function AppRouter() {
+    //const location = useLocation();
     return (
         <>
             <Routes>
@@ -28,7 +31,9 @@ function AppRouter() {
                     element={
                         <DashboardLayout>
                             <Routes>
-                                <Route path="/dashboard" element={<Dashboard />} />
+                                <Route index element={<Dashboard />} />
+                                <Route path="products" element={<Products />} />
+                                <Route path="categories" element={<Categories />} />
                             </Routes>
                         </DashboardLayout>
                     }
