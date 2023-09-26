@@ -13,7 +13,7 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="text-black px-4 bg-gray-100 border-r-2 h-screen w-[15%]">
+    <aside className="text-black px-4 bg-gray-100 border-r-2 h-screen w-[15%] rounded-r-lg">
       <Link to={"/"} className=" flex gap-1 mb-4 mr-4" href="/">
         <img src={logo} alt="Elektronix Logo" className="w-48" />
       </Link>

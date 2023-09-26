@@ -1,23 +1,45 @@
-import categories from "../../../../app/seed/categories";
+import { Link } from "react-router-dom";
+import {useNavigate } from 'react-router-dom'
 import CrudTable from "../../../components/CrudTable";
+import { useState, useEffect } from "react";
+import CategoryService from "../../../../app/services/category.service";
 export const Categories = () => {
+  const [categories, setCategories] = useState([]);
+  const navigate = useNavigate ();
+  useEffect(() => {
+    async function getAllCategories() {
+      try {
+        const categoriesData = await CategoryService.getAllCategories();
+        setCategories(categoriesData);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    }
+
+    getAllCategories();
+  }, []);
+  
+  
   const categoryColumns = [
     { key: "id", label: "Category Id", isNumeric: true },
     { key: "name", label: "Category Name", isNumeric: false },
   ];
   const handleEditClick = (item) => {
-    // Handle the edit action for the category
-    console.log("Edit category:", item);
+    navigate(`/dashboard/categories/edit/${item}`)
   };
 
-  const handleDeleteClick = (item) => {
-    // Handle the delete action for the category
-    console.log("Delete category:", item);
+  const handleDeleteClick =async (item) => {
+   try {
+    const deletedCategory = await CategoryService.deleteCategory(item);
+    window.location.reload();
+    
+   } catch (error) {
+    console.error(error)
+   }
   };
 
   const handleViewClick = (item) => {
-    // Handle the view action for the category
-    console.log("View category:", item);
+    navigate(`/dashboard/categories/view/${item}`)
   };
   return (
     <div className="mx-12 rounded-lg border border-gray-200 h-fit ">
@@ -25,7 +47,7 @@ export const Categories = () => {
         <div className="flex justify-between items-center p-4">
           <p className="text-2xl hover:text-blue-500">Categories</p>
           <div className="button">
-            <button className="bg-blue-500 flex gap-2 p-2 rounded-md text-white hover:bg-blue-700">
+            <Link to="/dashboard/categories/create" className="bg-blue-500 flex gap-2 p-2 rounded-md text-white hover:bg-blue-700">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -41,7 +63,7 @@ export const Categories = () => {
                 />
               </svg>
               Add Category
-            </button>
+            </Link>
           </div>
         </div>
         <CrudTable
